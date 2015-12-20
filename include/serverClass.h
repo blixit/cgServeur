@@ -1,11 +1,24 @@
 #ifndef SERVERCLASS_H
 #define SERVERCLASS_H
 
+#include <iostream>
 #if defined(_WIN32) || defined(WIN32)
     #include <winsock2.h> //socket
     #include <unistd.h>
 #else
-;
+    #include <arpa/inet.h>
+    #include <unistd.h>
+    #include <sys/socket.h> 
+    #include <errno.h>
+
+    #define BUFLEN 1024  //Max length of buffer 
+    #define INVALID_SOCKET -1
+    #define SOCKET_ERROR -1
+
+    typedef int SOCKET;
+    typedef struct sockaddr_in SOCKADDR_IN;
+    typedef struct sockaddr SOCKADDR;
+    typedef struct in_addr IN_ADDR;
 #endif
 
 #include "sessionClass.h"
@@ -33,8 +46,10 @@ namespace serverClass{
             int startService() throw();
             void stopService();
 
-            int startSession(const SOCKET& cli_sock) throw();
+            void startSession(const SOCKET& cli_sock) throw();
+            static void* Parallel_startSession(void*) throw();
             void stopSession(const asClient &client);
+            static void* Parallel_sessionController(void* data) throw();
         protected:
         private:
             bool breakloop;
@@ -46,6 +61,7 @@ namespace serverClass{
             asSession session;
     };
     typedef serverClass asServer;
+
 }
 }
 #endif // SERVERCLASS_H

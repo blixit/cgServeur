@@ -1,6 +1,6 @@
 #ifndef SESSIONCLASS_H
 #define SESSIONCLASS_H
-
+    
 #include <vector>
 
 using namespace std;
@@ -22,8 +22,14 @@ namespace sessionClass{
 
             asClient* addClient(asClient* client);
             void removeClient(const asClient &client);
+            asClient* getClient(const asClient& client);
+            asClient* getClient(const int &numero);
 
             void clear();
+
+            void routineIdentification(asClient* client) throw();
+            void broadCast(const string& meth, const string& para, const string& message) throw();
+            void updateListe() throw();
         protected:
         private:
             vector <asClient*> listeClients;
