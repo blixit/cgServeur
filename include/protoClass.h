@@ -23,6 +23,9 @@
 #include <exception>
 #include <vector>
 
+#include "bindStruct.h"
+
+
 using namespace std;
 
 namespace cgServer{
@@ -46,11 +49,12 @@ namespace protoClass{
 
     //# parametres de requete réseau
     const string NET_SHUT_DOWN = "shut";
-    /*' status de la requete
-    Public Const NET_REQ_FALL As String = "fall"
+    /*' status de la requete 
     Public Const NET_REQ_OK As String = "ok"
     Public Const NET_REQ_OQP As String = "oqp"
     Public Const NET_REQ_END As String = "end"*/
+    const string NET_REQ_FALL = "fall";
+
     //objet de la requete get ou post ou update
     const string NET_PARAM_NBCLIENT = "nbC";
     const string NET_PARAM_PSEUDO = "pseudo";
@@ -82,6 +86,8 @@ namespace protoClass{
 
 			void read(const int& sock, int const& length = BUFLEN) ;
 			void write(const int& sock) ;
+            void precv(const int& sock, string src, int const& length = BUFLEN);
+            void psend(const int& sock, string dest);
 
 			string requete() const {return _requete;};
 			void requete(const string& val) { _requete = val;};
@@ -98,6 +104,9 @@ namespace protoClass{
 
 			void build(const string& dest,const string& src, const string& methode, const string& param, const string& data) ;
 			int split(vector<string>& vecteur, string chaine, char separateur);
+
+            BindingsList binds; /**< Bindlist : pour associer des évènements à des fonctions */
+            void* bind();
 
 		private :
 			string _requete;

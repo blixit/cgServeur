@@ -66,6 +66,18 @@ namespace protoClass{
 
 		return vecteur.size();
 	}
+
+	/**
+		\brief Cette méthode exécute la fonction attachée à l'évènement methode-param
+		enregistré dans la bindlist
+	*/
+	void* protoClass::bind(){
+        for(auto b : binds){
+            if(b.msg == methode()+'-'+param())
+                return b.exec(b.data);
+        }
+        return NULL;
+    }
 		
 }
 }

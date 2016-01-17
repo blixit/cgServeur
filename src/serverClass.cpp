@@ -175,7 +175,7 @@ namespace serverClass{
 
                         }
                         else{
-                            cout << "Pas compris la paramètre !!" << endl; 
+                            cout << "Pas compris la requête !!" << endl; 
                         }
                     }
                     else if(comm.methode()==REQUETE(_post)){
@@ -186,49 +186,49 @@ namespace serverClass{
                             pthread_mutex_unlock (&mutex_sessionModified);
                             break;
                         }else{
-                            cout << "Pas compris la paramètre !!" << endl; 
+                            cout << "Pas compris la requête !!" << endl; 
                         } 
                     }
                     else if(comm.methode()==REQUETE(_sms)){
                         if (comm.param()==NET_SHUT_DOWN){
                              
                         }else{
-                            cout << "Pas compris la paramètre !!" << endl; 
+                            cout << "Pas compris la requête !!" << endl; 
                         }
                     }
                     else if(comm.methode()==REQUETE(_update)){ 
                         if (comm.param()==NET_SHUT_DOWN){
                              
                         }else{
-                            cout << "Pas compris la paramètre !!" << endl; 
+                            cout << "Pas compris la requête !!" << endl; 
                         }     
                     }
                     else if(comm.methode()==REQUETE(_delete)){
                         if (comm.param()==NET_SHUT_DOWN){
                              
                         }else{
-                            cout << "Pas compris la paramètre !!" << endl; 
+                            cout << "Pas compris la requête !!" << endl; 
                         }     
                     }
                     else if(comm.methode()==REQUETE(_session)){
                         if (comm.param()==NET_SHUT_DOWN){
                              
                         }else{
-                            cout << "Pas compris la paramètre !!" << endl; 
+                            cout << "Pas compris la requête !!" << endl; 
                         }     
                     }
                     else if(comm.methode()==REQUETE(_invite)){
                         if (comm.param()==NET_SHUT_DOWN){
                              
                         }else{
-                            cout << "Pas compris la paramètre !!" << endl; 
+                            cout << "Pas compris la requête !!" << endl; 
                         }     
                     }
                     else if(comm.methode()==REQUETE(_file)){
                         if (comm.param()==NET_SHUT_DOWN){
                              
                         }else{
-                            cout << "Pas compris la paramètre !!" << endl; 
+                            cout << "Pas compris la requête !!" << endl; 
                         }     
                     }
                     else{
@@ -243,7 +243,15 @@ namespace serverClass{
                 else{
                     //Transfert
                     asClient* cli = session.getClient(atoi(comm.dest().c_str()));
-                    comm.write(cli->c_socket());
+                    if(cli != NULL)
+                        comm.write(cli->c_socket());
+                    else{
+                        char buf[4] = {0}; 
+                        sprintf(buf,"%d",client->c_number());            
+                        comm.build(string(buf),NET_SERVER_ADDR,REQUETE(_post),NET_REQ_FALL,"Client Not Found"); 
+                        comm.write(client->c_socket());
+                    }
+
                 }
 
                 
