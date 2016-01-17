@@ -46,7 +46,7 @@ namespace serverClass{
     #endif
     }
 
-    SOCKET serverClass::initService() throw(){
+    SOCKET serverClass::initService() {
         breakloop = false;
 
         socklen_t recsize = sizeof(sin);
@@ -83,7 +83,7 @@ namespace serverClass{
         return csock;
     }
 
-    int serverClass::startService() throw(){
+    int serverClass::startService() {
 
         cout << "Serveur initialisé ..." << endl;
 
@@ -125,7 +125,7 @@ namespace serverClass{
         close(sock);
     } 
 
-    void serverClass::startSession(const SOCKET& cli_sock) throw(){
+    void serverClass::startSession(const SOCKET& cli_sock) {
         
         asClient* client;
         try{
@@ -140,6 +140,10 @@ namespace serverClass{
             session.broadCast(REQUETE(_post),NET_PARAM_NOTIF,string(buf));
             //update liste des connectés
             session.updateListe();
+        }catch(const serveur_exception& e){
+            cout << e.what() << endl; 
+            stopSession(*client); 
+            return;
         }catch(char const* e){
             cout << e << endl;
             stopSession(*client); 
@@ -151,8 +155,7 @@ namespace serverClass{
         //std::string str2 = "\n\n";
         int i(0);
         while(1){
-            try{            
-
+            try{              
                 asProto comm;
                 comm.read(client->c_socket()); 
                 cout << comm.requete() << endl;
@@ -255,17 +258,23 @@ namespace serverClass{
                     pthread_cond_signal (&cond_sessionModified); // On délivre le signal : condition remplie 
                     pthread_mutex_unlock (&mutex_sessionModified); // On déverrouille le mutex 
                     break;
-                }*/
-            }catch(char const* e){
-                cout << e << endl;
+                }*/ 
+            }catch(serveur_exception& e){
+                cout << e.code() << endl; 
+                cout << e.what() << endl; 
                 break;
-            }  
+            }catch(exception e){ 
+                cout << e.what() << endl; 
+                break;
+            }
+
+
         }
 
         stopSession(*client);   
     }
 
-    void* serverClass::Parallel_startSession(void* data) throw(){
+    void* serverClass::Parallel_startSession(void* data) {
         //rend le thread annulable à tout moment
         pthread_setcanceltype (PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 
@@ -284,7 +293,7 @@ namespace serverClass{
         session.removeClient(client);
     }
 
-    void* serverClass::Parallel_sessionController(void* data) throw(){
+    void* serverClass::Parallel_sessionController(void* data) {
         tuple<serverClass*>* donnee = (tuple<serverClass*> *)data;
         serverClass* serveur = get<0>(*donnee);
 

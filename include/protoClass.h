@@ -41,7 +41,8 @@ namespace protoClass{
 	#define REQUETE(id) TypeRequete[id]   
 	//ORIGIN ou Adresses
 	const string NET_SERVER_ADDR = "-1";
-	const string NET_BRCAST_ADDR = "b";
+    const string NET_BRCAST_ADDR = "b";
+	const string NET_ANY_ADDR = "a";
 
     //# parametres de requete réseau
     const string NET_SHUT_DOWN = "shut";
@@ -70,13 +71,17 @@ namespace protoClass{
     Public Const NET_PARAM_FILE_OK As String = NET_REQ_OK
     Public Const NET_PARAM_FILE_FALL As String = NET_REQ_FALL*/
 
+    //EXCEPTIONS
+    const int EXCEPT_EMPTY = 0;  
+    const int EXCEPT_DEAD_SOCKET = 0;
+
 	class protoClass{
 		public : 
 			protoClass();
 			~protoClass();
 
-			void read(const int& sock) throw();
-			void write(const int& sock) throw();
+			void read(const int& sock, int const& length = BUFLEN) ;
+			void write(const int& sock) ;
 
 			string requete() const {return _requete;};
 			void requete(const string& val) { _requete = val;};
@@ -91,7 +96,7 @@ namespace protoClass{
 			string data() const {return _data;};
 			void data(const string& val) { _data = val;};
 
-			void build(const string& dest,const string& src, const string& methode, const string& param, const string& data) throw();
+			void build(const string& dest,const string& src, const string& methode, const string& param, const string& data) ;
 			int split(vector<string>& vecteur, string chaine, char separateur);
 
 		private :

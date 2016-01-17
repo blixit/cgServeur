@@ -85,11 +85,12 @@ namespace sessionClass{
         return NULL;
     }
 
-    void sessionClass::routineIdentification(asClient* tmpClient) throw(){
-        asClient client = *tmpClient;
+    void sessionClass::routineIdentification(asClient* tmpClient) {
         //if(listeClients.at(client.c_number())->routineIdentificationDone())
         if(tmpClient == NULL)
             throw "L'identification a échoué.";
+        
+        asClient client = *tmpClient;
 
         if(tmpClient->routineIdentificationDone())
             return;
@@ -129,7 +130,7 @@ namespace sessionClass{
         
     }
 
-    void sessionClass::broadCast(const string& meth, const string& para, const string& message) throw(){
+    void sessionClass::broadCast(const string& meth, const string& para, const string& message) {
         asProto comm;
         comm.build(NET_BRCAST_ADDR,NET_SERVER_ADDR,meth,para,message);
 
@@ -138,7 +139,7 @@ namespace sessionClass{
         }
     }
 
-    void sessionClass::updateListe() throw(){
+    void sessionClass::updateListe() {
         asProto comm;
         if(listeClients.size()==0)
             return;

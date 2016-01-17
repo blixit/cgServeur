@@ -27,9 +27,9 @@ namespace sessionClass{
 
             void clear();
 
-            void routineIdentification(asClient* client) throw();
-            void broadCast(const string& meth, const string& para, const string& message) throw();
-            void updateListe() throw();
+            void routineIdentification(asClient* client) ;
+            void broadCast(const string& meth, const string& para, const string& message) ;
+            void updateListe() ;
         protected:
         private:
             vector <asClient*> listeClients;

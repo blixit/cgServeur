@@ -1,4 +1,5 @@
 #include "../include/protoClass.h" 
+#include "../include/serveur_exception.h" 
 
 namespace cgServer{
 namespace protoClass{
@@ -8,17 +9,21 @@ namespace protoClass{
 	protoClass::~protoClass(){
 		//
 	}
-	void protoClass::read(const int& socket) throw(){
-		char buffer[BUFLEN];
-		int sock_err = recv(socket,buffer,BUFLEN,0); 
+	void protoClass::read(const int& socket, int const& length) {
+		char buffer[length];
+		int sock_err = recv(socket,buffer,length,0); 
 		if(sock_err==1)
-			throw "[protoClass::read] Erreur lors de la réception d'un message."; 
+			throw serveur_exception("[protoClass::read] Erreur lors de la réception d'un message."); 
+		if(sock_err==0)
+			throw serveur_exception(EXCEPT_DEAD_SOCKET,"");
+
 		requete(string(buffer));		
+
 		vector<string> tab;
 		int elemts = split(tab,requete(),'~');
 
 		if(elemts != 5)
-			throw "[protoClass::read] Mauvais nombre de paramètres. Message rejeté."; 
+			throw serveur_exception("[protoClass::read] Mauvais nombre de paramètres. Message rejeté.\nRead Content:\n"+requete()); 
 		dest(tab.at(0));
 		src(tab.at(1));
 		methode(tab.at(2));
@@ -26,15 +31,15 @@ namespace protoClass{
 		data(tab.at(4)); 
 	}
 
-	void protoClass::write(const int& socket) throw(){
-		int sock_err =send(socket,requete().c_str(),requete().length(),0);
+	void protoClass::write(const int& socket) { 
+		int sock_err =send(socket,requete().c_str(),BUFLEN,0);
 		if(sock_err==1)
-			throw "[protoClass::write] Erreur lors de l'envoie du message."; 
+			throw serveur_exception("[protoClass::write] Erreur lors de l'envoi du message."); 
 	}
  
-	void protoClass::build(const string& desti,const string& srci, const string& methodei, const string& parami, const string& datai) throw(){
+	void protoClass::build(const string& desti,const string& srci, const string& methodei, const string& parami, const string& datai) {
 		if(desti.length()==0 || srci.length()==0 || methodei.length()==0 || parami.length()==0 || datai.length()==0)
-			throw "[protoClass::build]Un des paramètres est nul.";
+			throw serveur_exception("[protoClass::build]Un des paramètres est nul.");
 
 		dest(desti);
 		src(srci);

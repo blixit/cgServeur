@@ -9,15 +9,15 @@ class serveur_exception: public exception{
         /** Default constructor */
         serveur_exception(int cd,const char* str) throw(){
             erreur = string(str);
-            code = cd;
+            _code = cd;
         };
-        serveur_exception(const char* str) throw(){
+        /*serveur_exception(const char* str) throw(){
             erreur = string(str);
-            code = 0;
-        };
+            _code = 0;
+        };*/
         serveur_exception(std::string str) throw(){
             erreur = str;
-            code = 0;
+            _code = 0;
         };
         /** Default destructor */
         virtual ~serveur_exception() throw(){};
@@ -25,9 +25,11 @@ class serveur_exception: public exception{
         virtual const char* what() const throw(){
             return erreur.c_str();
         };
+
+        int code() const{return _code;};
     protected:
     private:
-        int code;
+        int _code;
         std::string erreur;
 };
 

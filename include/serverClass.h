@@ -35,21 +35,18 @@ namespace serverClass{
             /** Default destructor */
             virtual ~serverClass();
 
-            void wsaInit();
-            void wsaClean();
-
             /** \brief Initialise une socket, recoit une connexion et retourne le numéro de la socket
              * \return la socket client
              * \throw En cas d'erreur lève une exception
              */
-            SOCKET initService() throw();
-            int startService() throw();
+            SOCKET initService() ;
+            int startService() ;
             void stopService();
 
-            void startSession(const SOCKET& cli_sock) throw();
-            static void* Parallel_startSession(void*) throw();
+            void startSession(const SOCKET& cli_sock) ;
+            static void* Parallel_startSession(void*) ;
             void stopSession(const asClient &client);
-            static void* Parallel_sessionController(void* data) throw();
+            static void* Parallel_sessionController(void* data) ;
         protected:
         private:
             bool breakloop;
@@ -59,6 +56,9 @@ namespace serverClass{
             SOCKADDR_IN sin;
 
             asSession session;
+
+            void wsaInit();
+            void wsaClean();
     };
     typedef serverClass asServer;
 
