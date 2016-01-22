@@ -6,7 +6,7 @@ En cours.
 ### What is this repository for? ###
 
 * Quick summary
-* Version
+* Version 1.0
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
@@ -26,4 +26,4 @@ En cours.
 
 ### Who do I talk to? ###
 
-* Repo owner or admin : Blixit  
+* Repo owner or admin : Blixit
