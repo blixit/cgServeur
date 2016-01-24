@@ -76,5 +76,8 @@ namespace moduleClientClass{
 	    	cout << "client °"<<  i++ << " : " << comm.data() << endl; 
 	    }
 	}
+	void* moduleClientClass::on_invite(void* args){
+		return NULL;
+	}
 }
 }

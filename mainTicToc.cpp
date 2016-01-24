@@ -14,16 +14,13 @@ using namespace cgServer::protoClass;
 std::thread::id listen_thread_id;
 std::thread::id write_thread_id;
 
-void test(int *t){
-	cout << "test" << endl;
-}
-
 void tlisten(asMClient* cgc){
 	listen_thread_id = std::this_thread::get_id();
 	while(cgc->isRunning){
 		try{
 			cgc->comm.read(cgc->sock());
 			cout << cgc->comm.requete() << endl;
+			cgc->comm.bind();
 		}catch(read_exception e){
 			if(cgc->comm.requete().length()==0)
 				cgc->isRunning = false;
@@ -36,7 +33,10 @@ void twrite(asMClient* cgc){
 	write_thread_id = std::this_thread::get_id();
 	while(cgc->isRunning){
 		try{
-			string param, dest;
+			string meth, param, dest;
+			cout << "meth : " << endl;
+	    	cin >> meth;
+
 			cout << "dest : " << endl;
 	    	cin >> dest;
 
@@ -45,7 +45,7 @@ void twrite(asMClient* cgc){
  			 
  			stringstream stream;
  			stream << cgc->id();
-    		cgc->comm.build(dest,stream.str(),REQUETE(_post),param,cgc->pseudo());  //sending p-test
+    		cgc->comm.build(dest,stream.str(),meth,param,cgc->pseudo());  //sending p-test
 		    //cout << "send test " << comm.requete() << endl;
 		
 			cgc->comm.write(cgc->sock());
@@ -57,26 +57,29 @@ void twrite(asMClient* cgc){
 	}
 }
 
+void* on_invite(void* args){
+	asMClient* c = (asMClient*)args;
+
+	cout << "invited by " << c->comm.src() << endl;
+
+	return NULL;
+}
+
 int main(){ 
-    asMClient cgc,cgc2; 
+    asMClient cgc; 
 
     //launching serveur
     system("xterm ./cgserveur.exe &");
 
+    cgc.comm.binds.push_back({string(REQUETE(_invite)+"-"+NET_PARAM_INV_SEND), on_invite, &cgc});
 
-    try{
-    	string ip;
-    	cout << "ip : ";
-    	cin >> ip;
-    	cgc.sconnect(ip,1607);
+    try{ 
+    	cgc.sconnect("127.0.0.1",1607);
 	    cgc.init(cgc.comm,"Alain"); 
-
-	    int t=0;
-	    thread threadtest(test,&t);
+ 
 	    thread threadlisten(tlisten, &cgc);
 	    thread threadwrite(twrite, &cgc);
-
-	    threadtest.join();
+ 
 	    threadwrite.join();
 	    threadlisten.join();
 	    cgc.sdisconnect();

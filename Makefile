@@ -15,6 +15,9 @@ COUT = cgclient.exe
 ChatSRC = mainChat.cpp srcApp/*.cpp src/protoClass.cpp src/serveur_exception.cpp
 ChatOUT = cgchat.exe
 
+TTSRC = mainTicToc.cpp srcApp/*.cpp src/protoClass.cpp src/serveur_exception.cpp
+TTOUT = cgtictoc.exe
+
 all : client serveur
 	@echo "Compilation finished ! "
 
@@ -26,8 +29,13 @@ client : ${CSRC}
 
 chat : ${ChatSRC}
 	clear 
-	@echo "Compiling client ..."
+	@echo "Compiling chat ..."
 	${COMP} ${CXX11} ${FLAGS} ${CLIB} ${ChatSRC} -o ${ChatOUT}
+
+tt : ${TTSRC}
+	clear 
+	@echo "Compiling tictoc ..."
+	${COMP} ${CXX11} ${FLAGS} ${CLIB} ${TTSRC} -o ${TTOUT}
 
 serveur : ${SSRC}
 	@echo "Compiling serveur ..." 

@@ -49,6 +49,8 @@ namespace moduleClientClass{
 			void sdisconnect();
 			void init(protoClass & comm, string const& pseudo);
 
+			virtual void* on_invite(void* args);
+
 		private :
 			int _id = 0;
 			string _pseudo = "";

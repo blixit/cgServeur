@@ -65,11 +65,12 @@ namespace protoClass{
     ' objet de la requete start
     Public Const NET_PARAM_SESSION_START As String = "sta"
     Public Const NET_PARAM_SESSION_END As String = "end"
-    ' objet de la requete invite
-    Public Const NET_PARAM_INV_SEND As String = "send"
-    Public Const NET_PARAM_INV_ACCEPT As String = "accept" 'recoit une invitation
-    Public Const NET_PARAM_INV_FALL As String = NET_REQ_FALL
-    ' objet de la requete file
+    ' objet de la requete invite*/
+    const string NET_PARAM_INV_SEND = "send";    
+    const string NET_PARAM_INV_ACCEPT = "accept";// 'recoit une invitation
+    const string NET_PARAM_INV_DECLINE = "decline";// 'recoit une invitation
+
+    /*' objet de la requete file
     Public Const NET_PARAM_FILE_SEND As String = "send"
     Public Const NET_PARAM_FILE_RECV As String = "recv"
     Public Const NET_PARAM_FILE_OK As String = NET_REQ_OK
