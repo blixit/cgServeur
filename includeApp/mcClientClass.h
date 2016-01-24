@@ -25,10 +25,16 @@
 
 using namespace std;
 
+#include "../include/protoClass.h"
+using namespace cgServer::protoClass;
+
 namespace cgApplication{
 namespace moduleClientClass{
 	class moduleClientClass{
 		public :
+			protoClass comm;
+			bool isRunning;
+
 			moduleClientClass();
 			virtual ~moduleClientClass();
 
@@ -41,6 +47,7 @@ namespace moduleClientClass{
 
 			int sconnect(string const& ip, int const& port) ;
 			void sdisconnect();
+			void init(protoClass & comm, string const& pseudo);
 
 		private :
 			int _id = 0;

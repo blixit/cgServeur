@@ -1,11 +1,11 @@
 #include <iostream>
+#include <sstream> // std::stringstream, std::stringbuf
 #include <exception>
 #include <time.h> // rand
 
 using namespace std;
 
 #include "includeApp/mcClientClass.h"
-#include "include/protoClass.h"
 #include "include/serveur_exception.h"
 
 using namespace cgApplication::moduleClientClass;
@@ -44,7 +44,7 @@ int main()
 {
 	srand(time(NULL));
     asMClient cgc;
-    asProto comm;
+    asProto comm(false);
 
     //Binding some functions
     comm.binds.push_back({"p-test", test, NULL});
@@ -55,28 +55,7 @@ int main()
 	    cgc.sconnect("127.0.0.1",1607);
 	    cout << "sock " << cgc.sock() << endl;
 
-	    
-	    comm.build(NET_BRCAST_ADDR,NET_ANY_ADDR,REQUETE(_post),NET_PARAM_PSEUDO,"alain"); 
-	    cout << "send " << comm.requete() << endl;
-	    comm.write(cgc.sock());
-
-	    //identifiant
-	    comm.read(cgc.sock());
-	    string id = comm.data();
-	    cout << "id " << comm.data() << endl;
-	    //bcast notif connexion
-	    comm.read(cgc.sock());
-	    cout << "notif " << comm.data() << endl;
-	    //bcast nbc
-	    comm.read(cgc.sock());
-	    cout << "nbC " << comm.data() << endl;
-	    int nbClients = atoi(comm.data().c_str()), i=0;
-	    //update list
-	    while(i<nbClients){
-	    	comm.read(cgc.sock());
-	    	cout << "client °"<<  i++ << " : " << comm.data() << endl; 
-	    }
-
+	    cgc.init(comm,"Alain");
 
 	    //nb = sender, 0 = receiver
 	    cout << "sender : " ; 
@@ -89,7 +68,10 @@ int main()
 	    	if(dest!="0"){ 
 	    		cout << "param : " << endl;
 	    		cin >> param;
-	    		comm.build(dest,id,REQUETE(_post),param,"alain");  //sending p-test
+
+	    		stringstream stream;
+	    		stream << cgc.id();
+	    		comm.build(dest,stream.str(),REQUETE(_post),param,"alain");  //sending p-test
 			    cout << "send test " << comm.requete() << endl;
 			    comm.write(cgc.sock()); 
 	    	} else{ //code receiver
@@ -106,7 +88,10 @@ int main()
 	    cgc.sdisconnect();
 	}catch( const char  e[]){
 		cout << e << endl;
-	}catch(const serveur_exception& e1){
+	}catch(write_exception e1){
+		cout << "write_exception : "<< endl;
+		cout << e1.what() << endl;
+	}catch(serveur_exception e1){
 		cout << e1.what() << endl;
 	}
 

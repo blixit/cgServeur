@@ -50,9 +50,9 @@ namespace protoClass{
     //# parametres de requete réseau
     const string NET_SHUT_DOWN = "shut";
     /*' status de la requete 
-    Public Const NET_REQ_OK As String = "ok"
     Public Const NET_REQ_OQP As String = "oqp"
     Public Const NET_REQ_END As String = "end"*/
+    const string NET_REQ_OK = "ok";
     const string NET_REQ_FALL = "fall";
 
     //objet de la requete get ou post ou update
@@ -81,7 +81,7 @@ namespace protoClass{
 
 	class protoClass{
 		public : 
-			protoClass();
+			protoClass(bool const& isServeur);
 			~protoClass();
 
 			void read(const int& sock, int const& length = BUFLEN) ;
@@ -89,6 +89,8 @@ namespace protoClass{
             void precv(const int& sock, string src, int const& length = BUFLEN);
             void psend(const int& sock, string dest);
 
+            bool isServer() const{return _isServer;}
+            void isServer(bool const& val){ _isServer = val;};
 			string requete() const {return _requete;};
 			void requete(const string& val) { _requete = val;};
 			string dest() const {return _dest;};
@@ -102,19 +104,22 @@ namespace protoClass{
 			string data() const {return _data;};
 			void data(const string& val) { _data = val;};
 
-			void build(const string& dest,const string& src, const string& methode, const string& param, const string& data) ;
+			void build(string const& dest, string const& src, string const& methode, string const& param, string const& data) ;
 			int split(vector<string>& vecteur, string chaine, char separateur);
 
             BindingsList binds; /**< Bindlist : pour associer des évènements à des fonctions */
             void* bind();
 
 		private :
+            bool _isServer;
 			string _requete;
 			string _dest ;
 			string _src ;
 			string _methode ;
 			string _param ;
 			string _data ;
+
+            void checkStatus(const int& socket);
 
 	};
 

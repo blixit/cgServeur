@@ -150,17 +150,18 @@ namespace serverClass{
             return;
         } 
 
-        //traitements concernant la session
-        //std::string str = "coucou: coucou\n\n";
-        //std::string str2 = "\n\n";
-        int i(0);
+        //traitements concernant la session 
+        bool isTransfering = false; // on en a besoin dans le bloc catch pour faire un checkstatus
+
         while(1){
-            try{              
-                asProto comm;
+            asProto comm(true);
+
+            try{            
+                
                 comm.read(client->c_socket()); 
                 cout << comm.requete() << endl;
 
-                //si la soruce est différente du numéro enregistré pour la connexion active
+                //si la source est différente du numéro enregistré pour la connexion active
                 if(atoi(comm.src().c_str()) != client->c_number())
                     continue;
 
@@ -180,9 +181,9 @@ namespace serverClass{
                     }
                     else if(comm.methode()==REQUETE(_post)){
                         if (comm.param()==NET_SHUT_DOWN){
-                            cout << "extinction" << endl;
+                            session.removeClient(*client);
                             pthread_mutex_lock (&mutex_sessionModified); // On verrouille le mutex 
-                            pthread_cond_signal (&cond_sessionModified); // On délivre le signal : condition remplie 
+                            pthread_cond_signal (&cond_sessionModified); // On délivre le signal pour la MAJ de la liste 
                             pthread_mutex_unlock (&mutex_sessionModified);
                             break;
                         }else{
@@ -243,13 +244,22 @@ namespace serverClass{
                 else{
                     //Transfert
                     asClient* cli = session.getClient(atoi(comm.dest().c_str()));
-                    if(cli != NULL)
+                    if(cli != NULL){
+                        //transfert
+                        isTransfering = true;
                         comm.write(cli->c_socket());
-                    else{
+                        isTransfering = false;
+                        //on renvoie le statut
+                        char buf[4] = {0}; 
+                        sprintf(buf,"%d",client->c_number());            
+                        comm.build(string(buf),NET_SERVER_ADDR,REQUETE(_post),NET_REQ_OK," "); 
+                        comm.write(client->c_socket());
+                    }else{
+                        //Cette partie va être interceptée par statusCheck() (ou par une boucle lecture parralèle à l'écriture) du coté client
                         char buf[4] = {0}; 
                         sprintf(buf,"%d",client->c_number());            
                         comm.build(string(buf),NET_SERVER_ADDR,REQUETE(_post),NET_REQ_FALL,"Client Not Found"); 
-                        comm.write(client->c_socket());
+                        comm.write(client->c_socket()); 
                     }
 
                 }
@@ -267,7 +277,26 @@ namespace serverClass{
                     pthread_mutex_unlock (&mutex_sessionModified); // On déverrouille le mutex 
                     break;
                 }*/ 
-            }catch(serveur_exception& e){
+
+            }catch(write_exception e){
+                //En cas de transfert, si le write échoue, on ne renvoie jamais de réponse à l'initiateur de la conversation
+                //cette fonction permet donc de rattraper le coup dans le bloc catch (de la boucle du serveur)            
+                if(isTransfering){
+                    //on renvoie le statut
+                    char buf[4] = {0}; 
+                    sprintf(buf,"%d",client->c_number());            
+                    comm.build(string(buf),NET_SERVER_ADDR,REQUETE(_post),NET_REQ_FALL,"Client Unreacheable"); 
+                    comm.write(client->c_socket());
+                    isTransfering = false;
+                }
+                
+            }catch(read_exception e){
+                if(comm.requete().length() == 0){
+                    session.removeClient(*client);
+                    pthread_mutex_lock (&mutex_sessionModified); // On verrouille le mutex 
+                    pthread_cond_signal (&cond_sessionModified); // On délivre le signal : condition remplie 
+                    pthread_mutex_unlock (&mutex_sessionModified);
+                }
                 cout << e.code() << endl; 
                 cout << e.what() << endl; 
                 break;

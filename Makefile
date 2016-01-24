@@ -12,6 +12,9 @@ CLIB = -pthread
 CSRC = mainClient.cpp srcApp/*.cpp src/protoClass.cpp src/serveur_exception.cpp
 COUT = cgclient.exe
 
+ChatSRC = mainChat.cpp srcApp/*.cpp src/protoClass.cpp src/serveur_exception.cpp
+ChatOUT = cgchat.exe
+
 all : client serveur
 	@echo "Compilation finished ! "
 
@@ -20,6 +23,11 @@ client : ${CSRC}
 	@echo "Compiling client ..."
 	${COMP} ${CXX11} ${FLAGS} ${CLIB} ${CSRC} -o ${COUT}
 	#g++ -Wall -g -std=c++11 -pthread mainClient.cpp srcApp/*.cpp -o cg.exe
+
+chat : ${ChatSRC}
+	clear 
+	@echo "Compiling client ..."
+	${COMP} ${CXX11} ${FLAGS} ${CLIB} ${ChatSRC} -o ${ChatOUT}
 
 serveur : ${SSRC}
 	@echo "Compiling serveur ..." 

@@ -6,8 +6,9 @@
 namespace cgApplication{
 namespace moduleClientClass{
 
-	moduleClientClass::moduleClientClass(){
+	moduleClientClass::moduleClientClass() : comm(false){
 	    wsaInit();
+	    isRunning = false; 
 	}
 	moduleClientClass::~moduleClientClass(){
 	    wsaClean();
@@ -42,12 +43,38 @@ namespace moduleClientClass{
 		if(connect(sock(),(SOCKADDR *) &_sin, sizeof(SOCKADDR)) == SOCKET_ERROR)
 			throw serveur_exception("La connexion au serveur a échoué.");
 
+		isRunning = true;
+
 		return 0;
 	}
 
 	void moduleClientClass::sdisconnect(){
 		close(sock());
 		sock(-1);
+		isRunning = false;
+	}
+
+	void moduleClientClass::init(protoClass & comm, string const& pseudoUser){
+		comm.build(NET_BRCAST_ADDR,NET_ANY_ADDR,REQUETE(_post),NET_PARAM_PSEUDO,pseudoUser); 
+	    //cout << "send " << comm.requete() << endl;
+	    comm.write(sock());
+
+	    //identifiant
+	    comm.read(sock());
+	    id(stoi(comm.data().c_str()));
+	    cout << "id " << id() << endl;
+	    //bcast notif connexion
+	    comm.read(sock());
+	    cout << "notif " << comm.data() << endl;
+	    //bcast nbc
+	    comm.read(sock());
+	    cout << "nbC " << comm.data() << endl;
+	    int nbClients = atoi(comm.data().c_str()), i=0;
+	    //update list
+	    while(i<nbClients){
+	    	comm.read(sock());
+	    	cout << "client °"<<  i++ << " : " << comm.data() << endl; 
+	    }
 	}
 }
 }

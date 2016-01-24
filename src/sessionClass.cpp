@@ -95,7 +95,7 @@ namespace sessionClass{
         if(tmpClient->routineIdentificationDone())
             return;
 
-        asProto comm;
+        asProto comm(true);
 
         try{
              //réception login  
@@ -131,7 +131,7 @@ namespace sessionClass{
     }
 
     void sessionClass::broadCast(const string& meth, const string& para, const string& message) {
-        asProto comm;
+        asProto comm(true);
         comm.build(NET_BRCAST_ADDR,NET_SERVER_ADDR,meth,para,message);
 
         for(asClient* client : listeClients){ 
@@ -140,7 +140,7 @@ namespace sessionClass{
     }
 
     void sessionClass::updateListe() {
-        asProto comm;
+        asProto comm(true);
         if(listeClients.size()==0)
             return;
         

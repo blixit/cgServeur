@@ -3,19 +3,21 @@
 
 namespace cgServer{
 namespace protoClass{
-	protoClass::protoClass(){
-		//
+	protoClass::protoClass(bool const& isServeur){
+		isServer(isServeur);
 	}
 	protoClass::~protoClass(){
 		//
 	}
 	void protoClass::read(const int& socket, int const& length) {
 		char buffer[length];
+		requete(""); //permet de faire un test sur la variable read si la lecture echoue
+
 		int sock_err = recv(socket,buffer,length,0); 
-		if(sock_err==1)
-			throw serveur_exception("[protoClass::read] Erreur lors de la réception d'un message."); 
+		if(sock_err==-1)
+			throw read_exception("[protoClass::read] Erreur lors de la réception d'un message."); 
 		if(sock_err==0)
-			throw serveur_exception(EXCEPT_DEAD_SOCKET,"");
+			throw read_exception(EXCEPT_DEAD_SOCKET,"");
 
 		requete(string(buffer));		
 
@@ -23,7 +25,7 @@ namespace protoClass{
 		int elemts = split(tab,requete(),'~');
 
 		if(elemts != 5)
-			throw serveur_exception("[protoClass::read] Mauvais nombre de paramètres. Message rejeté.\nRead Content:\n"+requete()); 
+			throw read_exception("[protoClass::read] Mauvais nombre de paramètres. Message rejeté.\nRead Content:\n"+requete()); 
 		dest(tab.at(0));
 		src(tab.at(1));
 		methode(tab.at(2));
@@ -34,12 +36,41 @@ namespace protoClass{
 	void protoClass::write(const int& socket) { 
 		int sock_err =send(socket,requete().c_str(),BUFLEN,0);
 		if(sock_err==1)
-			throw serveur_exception("[protoClass::write] Erreur lors de l'envoi du message."); 
+			throw write_exception("[protoClass::write] Erreur lors de l'envoi du message.");  
 	}
+    
+    /**
+    	Vérifie que le serveur a bien transmis le paquet au destinataire. Pour cela, cette fonction qui fait un read
+    	doit être placée juste après l'envoi send() de la fonction write. 
+    	Cette fonction est privée (= interne à la classe protoClass)
+
+    	\warning : En fait, dans le cas où le client lance 2 threads (écoute et écriture), si le thread écriture lit la
+    	réponse du serveur avant checkStatus() qui se trouve dans le thread écriture, le client reste bloqué dans cet état.
+    */
+    void protoClass::checkStatus(const int& socket){ 
+    	if(isServer()==false){
+    		/* Si c'est le client, on ne fait la validation que si le destinataire du message envoyé n'est pas le serveur
+    		*/ 
+    		if(dest() != NET_SERVER_ADDR && dest()!=NET_BRCAST_ADDR){
+    			read(socket);
+    			if(param()!=NET_REQ_OK)
+    				throw serveur_exception(param()+" : "+data());
+    		}
+    	} 
+    }
  
-	void protoClass::build(const string& desti,const string& srci, const string& methodei, const string& parami, const string& datai) {
-		if(desti.length()==0 || srci.length()==0 || methodei.length()==0 || parami.length()==0 || datai.length()==0)
-			throw serveur_exception("[protoClass::build]Un des paramètres est nul.");
+	void protoClass::build(string const& desti, string const& srci, string const& methodei, string const& parami, string const& datai){
+		if(desti.length()==0)
+			throw serveur_exception("[protoClass::build] Le destinataire n'est pas fourni.");
+
+		if(srci.length()==0) 
+			throw serveur_exception("[protoClass::build] La source n'est pas fournie.");
+
+		if(methodei.length()==0)
+			throw serveur_exception("[protoClass::build] La méthode n'est pas fournie.");
+
+		if(parami.length()==0)
+			throw serveur_exception("[protoClass::build] Le paramètre n'est pas fourni.");
 
 		dest(desti);
 		src(srci);
