@@ -104,11 +104,39 @@ namespace protoClass{
 	*/
 	void* protoClass::bind(){
         for(auto b : binds){
-            if(b.msg == methode()+'-'+param())
+            if(b.msg == methode()+'-'+param()){
+            	cout << "binding " << b.msg << endl;
+                return b.exec(b.data);
+            }
+        }
+        return NULL;
+    }
+
+
+	/**
+		\brief Cette méthode exécute la fonction attachée au message 
+		enregistré dans la bindsKeywordsList
+	*/
+	void* protoClass::bindData(){
+        for(auto b : databinds){
+            if(b.msg == data())
                 return b.exec(b.data);
         }
         return NULL;
     }
+
+    void protoClass::sendCond(pthread_mutex_t m, pthread_cond_t c){
+    	pthread_mutex_lock(&m);  
+        pthread_cond_signal (&c); 
+        pthread_mutex_unlock(&m);
+    }
+
+    void protoClass::waitCond(pthread_mutex_t m, pthread_cond_t c){
+    	pthread_mutex_lock(&m);  
+        pthread_cond_wait (&c, &m); 
+        pthread_mutex_unlock(&m);
+    }
+    
 		
 }
 }

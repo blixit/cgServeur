@@ -20,7 +20,11 @@ typedef struct _bindStruct
 	void* data; //customer data
 } asBind;
 
-//Définie le type bindingList pour stocker plusieurs associations
+//Définie le type bindingList pour stocker plusieurs associations (methode-param => fonction)
 typedef std::vector<asBind> BindingsList;
+
+//Définie le type BindingsKeywordsList pour stocker les mots clés à tracker via la méthode bindData
+//de protoClass
+typedef std::vector<asBind> BindingsKeywordsList;
 
 #endif //BINDSTRUCT_H

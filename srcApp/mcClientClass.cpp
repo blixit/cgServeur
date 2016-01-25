@@ -55,6 +55,7 @@ namespace moduleClientClass{
 	}
 
 	void moduleClientClass::init(protoClass & comm, string const& pseudoUser){
+		pseudo(pseudoUser);
 		comm.build(NET_BRCAST_ADDR,NET_ANY_ADDR,REQUETE(_post),NET_PARAM_PSEUDO,pseudoUser); 
 	    //cout << "send " << comm.requete() << endl;
 	    comm.write(sock());

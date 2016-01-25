@@ -109,7 +109,12 @@ namespace protoClass{
 			int split(vector<string>& vecteur, string chaine, char separateur);
 
             BindingsList binds; /**< Bindlist : pour associer des évènements à des fonctions */
+            BindingsKeywordsList databinds; /**< BindingsKeywordsList : liste des mots à tracker via bindData */
             void* bind();
+            void* bindData();
+
+            void sendCond(pthread_mutex_t m, pthread_cond_t c);
+            void waitCond(pthread_mutex_t m, pthread_cond_t c);
 
 		private :
             bool _isServer;
