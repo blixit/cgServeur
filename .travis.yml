@@ -6,3 +6,5 @@ os :
 branch:
 	only:
 		- master
+script:
+	  - make
