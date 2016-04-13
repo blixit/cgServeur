@@ -1,3 +1,6 @@
+Version 1.0.0 
+[![Build Status](https://github.com/blixit/cgserveur.git?branch=master)](https://github.com/blixit/cgserveur)
+
 # README #
 
 This repository stores the source code of cgServeur.
