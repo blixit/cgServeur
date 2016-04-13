@@ -1,2 +1,8 @@
 language : cpp
-compiler : g++
+compiler : 
+- g++
+os : 
+- linux
+branch:
+	only:
+		- master
