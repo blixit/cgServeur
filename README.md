@@ -1,7 +1,7 @@
 # README #
 
 This repository stores the source code of cgServeur.
-CgServeur is a simple c++ library implementing the protocol communication between a given client and a given server. You can use the given client and serveur to make your applications accessible on the network.
+CgServeur is a simple c++ library implementing a protocol communication between a given client and a given server. You can use the given client and serveur to make your applications accessible on the network. Two programs are given as examples.
 
 ### What is this repository for? ###
 
