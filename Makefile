@@ -1,5 +1,5 @@
 COMP = g++
-CXX11 = -std=c11
+CXX11 = -std=c++11
 FLAGS = -Wall -g 
 
 #serveur dependencies
