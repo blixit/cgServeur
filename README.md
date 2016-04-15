@@ -28,6 +28,7 @@ A makefile is provided to pass the compilation. The compilation concerns both cl
 The project has been compiled with g++>=4.8.4 with `std=c++11` option enabled. 
 
 If you need to install or upgrade gcc, follow these steps : 
+
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get update
