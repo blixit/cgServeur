@@ -25,14 +25,23 @@ When you use CgServeur, you just need to link the Pthread librairy to suuport th
 ### Building and Installing
 
 A makefile is provided to pass the compilation. The compilation concerns both client and server applications.
-The compilator used is g++>=4.8.4 with `std=c++11` option enabled. 
+The project has been compiled with g++>=4.8.4 with `std=c++11` option enabled. 
+
+If you need to install or upgrade gcc, follow these steps : 
+```
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install gcc-4.9 g++-4.9
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
+
+```
 
 #### Install from git repository
 
 ```bash
-$ git clone https://github.com/blixit/cgserveur.git
-$ cd cgserveur 
-$ make
+git clone https://github.com/blixit/cgserveur.git
+cd cgserveur 
+make
 ```
 
 ### Documentation
