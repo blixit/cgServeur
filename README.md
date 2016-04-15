@@ -10,8 +10,7 @@ Version 1.0.0
 This repository stores the source code of cgServeur.
 CgServeur is a simple c++ library implementing the protocol communication between a given client and a given server. You can use the given client and serveur to make your applications accessible on the network.
 
-# Examples :
-------------
+### Examples
 
 > [`mainTicToc.cpp`](./mainTicToc.cpp) for a tictoc client on the terminal.
 
