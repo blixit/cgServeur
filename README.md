@@ -13,8 +13,10 @@ CgServeur is a simple c++ library implementing the protocol communication betwee
 # Examples :
 ------------
 
-> [`mainTicToc.cpp`](./mainTicToc.cpp) for a chat client.
+> [`mainTicToc.cpp`](./mainTicToc.cpp) for a tictoc client on the terminal.
+
 > [`mainChat.cpp`](./mainChat.cpp) for a chat client.
+
 > [`mainClient.cpp`](./mainClient.cpp) for a simple client.
 
 ### Dependencies  
