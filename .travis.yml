@@ -1,10 +1,5 @@
-language : cpp
-compiler : 
-- g++
-os : 
-- linux
-branch:
-	only:
-		- master
-script:
-	  - make
+language : cpp  
+compiler : g++
+os : linux
+branch: master
+script: make 
