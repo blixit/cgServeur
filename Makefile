@@ -18,7 +18,7 @@ ChatOUT = cgchat.exe
 TTSRC = mainTicToc.cpp srcApp/*.cpp src/protoClass.cpp src/serveur_exception.cpp
 TTOUT = cgtictoc.exe
 
-all : client serveur
+all : tt chat client serveur
 	@echo "Compilation finished ! "
 
 client : ${CSRC}
@@ -45,3 +45,9 @@ serveur2 : main.cpp src/protoClass.cpp src/clientClass.cpp src/serverClass.cpp s
 	#clear
 	#echo "------------------------------------------------------------------------------------"
 	#g++ -Wall -g -std=c++11 -pthread main.cpp src/protoClass.cpp src/clientClass.cpp src/serverClass.cpp src/serveur_exception.cpp src/sessionClass.cpp -o cgserveur.exe 
+
+clean :
+	rm -f ${COUT}
+	rm -f ${SOUT}
+	rm -f ${TTOUT}
+	rm -f ${ChatOUT}

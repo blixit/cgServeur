@@ -147,7 +147,7 @@ int main(){
     //launching serveur
     system("xterm ./cgserveur.exe &");
     sleep(1);
-
+     
     //cgc.comm.databinds.push_back({"invite",on_invite,&cgc});
     cgc.comm.binds.push_back({string(REQUETE(_invite)+"-"+NET_PARAM_INV_SEND), on_invite, &cgc});
     cgc.comm.binds.push_back({string(REQUETE(_invite)+"-"+NET_PARAM_INV_ACCEPT), on_accept, &cgc});

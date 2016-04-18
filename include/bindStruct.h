@@ -4,9 +4,9 @@
 typedef void*(*Fonction)(void*); //pointeur de fonctions
 
 /**
-	\struct _bindstruct
+	@struct _bindstruct
 	Associe un mesage à une fonction.
-	\warning Définie l'alias asBind.
+	@warning Définie l'alias asBind.
 */
 typedef struct _bindStruct
 { 
@@ -15,8 +15,8 @@ typedef struct _bindStruct
 		exec = ptr;
 		data = args;
 	}; 
-	std::string msg;
-	Fonction exec;
+	std::string msg; //message to track
+	Fonction exec; //Callback function
 	void* data; //customer data
 } asBind;
 

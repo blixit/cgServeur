@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream> // std::stringstream, std::stringbuf
 #include <exception>
-#include <time.h> // rand
+//#include <time.h> // rand
 
 using namespace std;
 
