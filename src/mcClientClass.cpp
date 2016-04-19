@@ -113,21 +113,20 @@ namespace moduleClientClass{
 
 		while(isRunning){
 			try{
-				string meth, param, dest;
-				cout << "dest : " << endl;
-		    	//cin >> dest;
+				string meth, param, dest,value;
+				cout << "dest : " << endl; 
 		    	getline(cin,dest);
 
-				cout << "message : " << endl;
-				//cin >> meth; 
+				cout << "meth : " << endl; 
 				getline(cin,meth);
-	 			 
-	 			/*stringstream stream;
-	 			stream << id();
-	    		comm.build(dest,stream.str(),meth,param,pseudo());  //sending p-test 			
-				comm.write(sock());*/
-				sms(dest,meth);
-				//break;
+
+				cout << "param : " << endl; 
+				getline(cin,param);
+
+				cout << "value : " << endl; 
+				getline(cin,value);
+
+				sendRequest(dest,meth,param,value); 
 			}catch(write_exception e){
 				cout << e.what() << endl;
 			}catch(serveur_exception e){

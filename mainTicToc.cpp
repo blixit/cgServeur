@@ -40,7 +40,7 @@ int main(){
 	    cgc.init(cgc.comm,"alain"); 
 
 	    cgc.get(NET_SERVER_ADDR,NET_PARAM_PSEUDO);
-	    cgc.sms(NET_BRCAST_ADDR,"coucouc");
+	    cgc.sms(NET_SERVER_ADDR,"coucouc");
   
 	    thread threadlisten(&moduleClientClass::tlisten, &cgc);
 	    thread threadwrite(&moduleClientClass::twrite, &cgc);
