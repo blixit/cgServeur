@@ -9,13 +9,13 @@ SOUT = cgserveur.exe
 
 #client dependencies
 CLIB = -pthread 
-CSRC = mainClient.cpp srcApp/*.cpp src/protoClass.cpp src/serveur_exception.cpp
+CSRC = mainClient.cpp src/mcClientClass.cpp src/protoClass.cpp src/serveur_exception.cpp
 COUT = cgclient.exe
 
-ChatSRC = mainChat.cpp srcApp/*.cpp src/protoClass.cpp src/serveur_exception.cpp
+ChatSRC = mainChat.cpp src/mcClientClass.cpp src/protoClass.cpp src/serveur_exception.cpp
 ChatOUT = cgchat.exe
 
-TTSRC = mainTicToc.cpp srcApp/*.cpp src/protoClass.cpp src/serveur_exception.cpp
+TTSRC = mainTicToc.cpp src/mcClientClass.cpp src/protoClass.cpp src/serveur_exception.cpp
 TTOUT = cgtictoc.exe
 
 all : tt chat client serveur
@@ -38,6 +38,7 @@ tt : ${TTSRC}
 	${COMP} ${CXX11} ${FLAGS} ${CLIB} ${TTSRC} -o ${TTOUT}
 
 serveur : ${SSRC}
+	clear
 	@echo "Compiling serveur ..." 
 	${COMP} ${CXX11} ${FLAGS} ${SLIB} ${SSRC} -o ${SOUT}
 

@@ -25,7 +25,8 @@
 
 using namespace std;
 
-#include "../include/protoClass.h"
+#include "protoClass.h"
+
 using namespace cgServer::protoClass;
 
 namespace cgApplication{
@@ -34,6 +35,8 @@ namespace moduleClientClass{
 		public :
 			protoClass comm;
 			bool isRunning;
+            std::thread::id listen_thread_id;
+			std::thread::id write_thread_id;
 
 			moduleClientClass();
 			virtual ~moduleClientClass();
@@ -47,9 +50,22 @@ namespace moduleClientClass{
 
 			int sconnect(string const& ip, int const& port) ;
 			void sdisconnect();
-			void init(protoClass & comm, string const& pseudo);
+			void init(protoClass & comm, string const& pseudo); 
 
-			virtual void* on_invite(void* args);
+			void tlisten();
+			void twrite();
+			void bind(bool val){_bind = val;};
+			void binddata(bool val){_binddata = val;};
+ 
+			void sendRequest(string const& dest, string const& meth, string const& param, string const& data);
+			void get(string const& dest, string const& param);
+			void post(string const& dest, string const& param, string const& value);
+			void sms(string const& dest, string const& msg);
+			void update(string const& dest, string const& param, string const& value); 
+			void del(string const& dest, string const& param); 
+			void session(string const& dest, string const& param, string const& value); 
+			void invite(string const& dest, string const& param); 
+			void file(string const& dest, string const& param, string const& value);  
 
 		private :
 			int _id = 0;
@@ -57,6 +73,11 @@ namespace moduleClientClass{
 			chrono::time_point<chrono::system_clock> _connexion_time = chrono::system_clock::now();
             SOCKET _sock;
             SOCKADDR_IN _sin;
+
+            bool _bind = true;
+            bool _binddata = false;
+
+
 
 			void wsaInit();
 			void wsaClean();
