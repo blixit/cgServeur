@@ -1,0 +1,3 @@
+clear 
+TERM environment variable not set.
+make: *** [tt] Erreur 1

@@ -70,6 +70,9 @@ namespace protoClass{
     const string NET_PARAM_INV_ACCEPT = "accept";// 'recoit une invitation
     const string NET_PARAM_INV_DECLINE = "decline";// 'recoit une invitation
 
+    /*SMS*/
+    const string NET_PARAM_SMS_SEND = "sms";
+
     /*' objet de la requete file
     Public Const NET_PARAM_FILE_SEND As String = "send"
     Public Const NET_PARAM_FILE_RECV As String = "recv"
@@ -111,6 +114,7 @@ namespace protoClass{
             BindingsList binds; /**< Bindlist : pour associer des évènements à des fonctions */
             BindingsKeywordsList databinds; /**< BindingsKeywordsList : liste des mots à tracker via bindData */
             void* bind();
+            void* bindMP();
             void* bindData();
 
             void sendCond(pthread_mutex_t m, pthread_cond_t c);

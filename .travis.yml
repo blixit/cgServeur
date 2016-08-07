@@ -2,4 +2,4 @@ language : cpp
 compiler : g++
 os : linux
 branch: master
-script: make
+script: make  

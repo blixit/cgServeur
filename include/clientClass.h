@@ -26,7 +26,7 @@ using namespace std;
 
 namespace cgServer{
 namespace clientClass{
-    /** \brief  Implémentation de l'objet client côté serveur
+    /** @brief  Implï¿½mentation de l'objet client cï¿½tï¿½ serveur
      */
 
     class clientClass{

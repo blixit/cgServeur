@@ -103,14 +103,54 @@ namespace protoClass{
 		enregistré dans la bindlist
 	*/
 	void* protoClass::bind(){
-        for(auto b : binds){
-            if(b.msg == methode()+'-'+param()){
-            	cout << "binding " << b.msg << endl;
-                return b.exec(b.data);
+            for(auto b : binds){ 
+                if(b.type == b.TYPE_ALL){  //0111
+                    if(b.msg == methode()+'-'+param()+'-'+data()){ 
+                        return b.exec(b.data);
+                    }
+                }else if(b.type == b.TYPE_M){  // 0100 
+                     if(b.msg == methode()){ 
+                        return b.exec(b.data);
+                    }
+                }else if(b.type == b.TYPE_P){  //0010
+                    if(b.msg == param()){ 
+                        return b.exec(b.data);
+                    }
+                }else if(b.type == b.TYPE_D){  //0001
+                    if(b.msg == data()){
+                        return b.exec(b.data);
+                    }
+                }else if(b.type == (b.TYPE_M|b.TYPE_P)){ ///0110 not 0001 
+                    if(b.msg == methode()+'-'+param()){  
+                        return b.exec(b.data);
+                    }
+                }else if(b.type == (b.TYPE_M|b.TYPE_D)){ ///0101 not 0010
+                    if(b.msg == methode()+'-'+data()){ 
+                        return b.exec(b.data);
+                    } 
+                }else if(b.type == (b.TYPE_P|b.TYPE_D)){                     
+                     if(b.msg == methode()+'-'+param()+'-'+data()){ 
+                        return b.exec(b.data);
+                    }                                     
+                }else{
+                    throw serveur_exception("[protoClass::bind] Le type de données à tracker n'a pas été défini.");
+                }
             }
+            return NULL;
         }
-        return NULL;
-    }
+        
+        /**
+		\brief Cette méthode exécute la fonction attachée à l'évènement methode-param
+		enregistré dans la bindlist
+	*/
+	void* protoClass::bindMP(){
+            for(auto b : binds){
+                if(b.msg == methode()+'-'+param()){ 
+                    return b.exec(b.data);
+                }
+            }
+            return NULL;
+        }
 
 
 	/**
