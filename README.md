@@ -12,6 +12,16 @@ CgServeur is a simple c++ 'framework' implementing a communication protocol (SGM
 
 SGMTP means Simple Gaming Message Tansfert Protocol. Its targets simple applications and developers which want to get rid of the network programming layer of their application. The application is based on writing of listeners and callback functions on both server and client sides. 
 
+The protocol is written over tcp/ip and consists on sending a simple text message (will change in the future). This message follows this structure : 
+RERCIPIENT_id ~ SENDER_id ~ METHOD ~ PARAMETER ~ DATA
+
+- recipient_id and sender_id are numbers which identify each clients or servers
+- method is a letter. It's the same idea than http methods (get, post, delete, ...)
+- parameter percises the data you are sending (nbclients, pseudo, xyposition, ...)
+- data is a string contains what you want to send (it could become a byte array to allow classes or structures transferts )
+
+For now, it's very simple. In the future, things will be more complex but use of the code will keep the same ease.  .
+
 ### Examples
 
 > [`hangman (v2)`](./pendu) for the hangman client and serveur on the terminal.
