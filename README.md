@@ -10,7 +10,7 @@ Version 2.0.0
 This repository stores the source code of cgServeur.
 CgServeur is a simple c++ 'framework' implementing a communication protocol (SGMTP) between a given client and a given server through a third party server. You can use this protocol to help your applications to communicate easily on the network. No knowledge is required in network programming. Data transfert are voluntarily limited to 1024o for test. This value will certainly be modified in the next releases. Or it could be configurable.
 
-SGMTP means Simple Gaming Message Tansfert Protocol. Its targets simple applications and developers which want to get rid of the network programming layer of their application.
+SGMTP means Simple Gaming Message Tansfert Protocol. Its targets simple applications and developers which want to get rid of the network programming layer of their application. The application is based on writing of listeners and callback functions on both server and client sides. 
 
 ### Examples
 
