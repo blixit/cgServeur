@@ -5,10 +5,10 @@
 
 using namespace std;
 
-#include "includeApp/mcClientClass.h"
+#include "include/mcClientClass.h"
 #include "include/serveur_exception.h"
 
-using namespace cgApplication::moduleClientClass;
+using namespace cgServer::moduleClientClass;
 using namespace cgServer::protoClass;
 
 

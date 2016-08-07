@@ -27,13 +27,14 @@ using namespace std;
 
 #include "protoClass.h"
 
-using namespace cgServer::protoClass;
+//using namespace cgServer::protoClass;
 
-namespace cgApplication{
+namespace cgServer{
+    using namespace protoClass;
 namespace moduleClientClass{
 	class moduleClientClass{
 		public :
-			protoClass comm;
+			asProto comm;
 			bool isRunning;
             std::thread::id listen_thread_id;
 			std::thread::id write_thread_id;
@@ -50,7 +51,7 @@ namespace moduleClientClass{
 
 			int sconnect(string const& ip, int const& port) ;
 			void sdisconnect();
-			void init(protoClass & comm, string const& pseudo); 
+			void init(asProto & comm, string const& pseudo); 
 
 			void tlisten();
 			void twrite();

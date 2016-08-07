@@ -9,11 +9,11 @@
         <in>serveur_exception.cpp</in>
         <in>sessionClass.cpp</in>
       </df>
-      <df name="srcApp">
-        <in>mcClientClass.cpp</in>
-      </df>
       <df name="srcGame">
         <in>tt.cc</in>
+      </df>
+      <df name="testlib">
+        <in>Makefile</in>
       </df>
       <in>main.cpp</in>
       <in>mainChat.cpp</in>
@@ -94,9 +94,9 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="srcApp/mcClientClass.cpp" ex="false" tool="1" flavor2="4">
-      </item>
       <item path="srcGame/tt.cc" ex="false" tool="1" flavor2="4">
+      </item>
+      <item path="testlib/Makefile" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

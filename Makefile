@@ -18,8 +18,14 @@ ChatOUT = cgchat.exe
 TTSRC = mainTicToc.cpp src/mcClientClass.cpp src/protoClass.cpp src/serveur_exception.cpp
 TTOUT = cgtictoc.exe
 
+LIBSRC = src/protoClass.cpp src/clientClass.cpp src/serverClass.cpp src/serveur_exception.cpp src/sessionClass.cpp src/mcClientClass.cpp #$(wildcard src/*.cpp)
+LIBSOBJ := $(subst src/,obj/,$(LIBSRC))
+LIBSOBJ := $(LIBSOBJ:.cpp=.o)
+
 all : tt chat client serveur
 	@echo "Compilation finished ! "
+
+libso : cleanlibsta libshared
 
 client : ${CSRC}
 	clear 
@@ -47,8 +53,28 @@ serveur2 : main.cpp src/protoClass.cpp src/clientClass.cpp src/serverClass.cpp s
 	#echo "------------------------------------------------------------------------------------"
 	#g++ -Wall -g -std=c++11 -pthread main.cpp src/protoClass.cpp src/clientClass.cpp src/serverClass.cpp src/serveur_exception.cpp src/sessionClass.cpp -o cgserveur.exe 
 
+liba :  ${LIBSOBJ} 
+	@echo -n $^ "\n"
+	ar -rv libsgmtp.a  $^
+	mkdir -p testlib/
+	cp libsgmtp.a testlib/libsgmtp.a
+
+libshared : ${LIBSOBJ} 
+	@echo -n $^ "\n"
+	gcc -o libsgmtp.so -shared $^
+	mkdir -p testlib/
+	cp libsgmtp.so testlib/libsgmtp.so
+	 
+
+obj/%.o : src/%.cpp #$(subst .o,.cpp ,$(subst obj/,src/,$@)) ) 
+	g++ ${CXX11} ${FLAGS} ${CLIB}  -fPIC -c $< -o $@ 
+	
 clean :
 	rm -f ${COUT}
 	rm -f ${SOUT}
 	rm -f ${TTOUT}
 	rm -f ${ChatOUT}
+
+cleanlibsta : 
+	rm -f obj/*.o
+	rm -f libsgmtp.a

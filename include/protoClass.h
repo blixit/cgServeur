@@ -114,6 +114,7 @@ namespace protoClass{
             BindingsList binds; /**< Bindlist : pour associer des évènements à des fonctions */
             BindingsKeywordsList databinds; /**< BindingsKeywordsList : liste des mots à tracker via bindData */
             void* bind();
+            void* bindMP();
             void* bindData();
 
             void sendCond(pthread_mutex_t m, pthread_cond_t c);

@@ -5,29 +5,40 @@
       <df name="include">
         <in>bindStruct.h</in>
         <in>clientClass.h</in>
+        <in>mcClientClass.h</in>
         <in>protoClass.h</in>
         <in>pthread.h</in>
         <in>serverClass.h</in>
         <in>serveur_exception.h</in>
         <in>sessionClass.h</in>
-      </df>
-      <df name="includeApp">
-        <in>mcClientClass.h</in>
+        <in>sgmtp.h</in>
+        <in>sha256.h</in>
       </df>
       <df name="includeGame">
       </df>
+      <df name="obj">
+      </df>
+      <df name="pendu">
+        <in>pendu.h</in>
+        <in>penduclient.cc</in>
+        <in>penduhost.cc</in>
+        <in>sgmtp.h</in>
+      </df>
       <df name="src">
         <in>clientClass.cpp</in>
+        <in>mcClientClass.cpp</in>
         <in>protoClass.cpp</in>
         <in>serverClass.cpp</in>
         <in>serveur_exception.cpp</in>
         <in>sessionClass.cpp</in>
-      </df>
-      <df name="srcApp">
-        <in>mcClientClass.cpp</in>
+        <in>sha256.cpp</in>
       </df>
       <df name="srcGame">
+        <in>event.cc</in>
         <in>tt.cc</in>
+      </df>
+      <df name="testlib">
+        <in>Makefile</in>
       </df>
       <in>Utils.h</in>
       <in>main.cpp</in>

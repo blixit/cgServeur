@@ -5,7 +5,7 @@
 
 using namespace std;
 
-namespace cgApplication{
+namespace cgServer{
 namespace moduleClientClass{
 
 	moduleClientClass::moduleClientClass() : comm(false){
@@ -56,7 +56,7 @@ namespace moduleClientClass{
 		isRunning = false;
 	}
 
-	void moduleClientClass::init(protoClass & comm, string const& pseudoUser){
+	void moduleClientClass::init(asProto & comm, string const& pseudoUser){
 		pseudo(pseudoUser);
 		comm.build(NET_BRCAST_ADDR,NET_ANY_ADDR,REQUETE(_post),NET_PARAM_PSEUDO,pseudoUser); 
 	    //cout << "send " << comm.requete() << endl;
